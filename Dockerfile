@@ -6,5 +6,7 @@ COPY . .
 
 RUN bun i -D
 
+RUN bunx puppeteer browsers install chrome
+
 
 CMD ["bun", "run", "src/index.ts"]
