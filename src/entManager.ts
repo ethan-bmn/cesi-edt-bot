@@ -32,18 +32,54 @@ export async function takeScreenshot(interaction: ChatInputCommandInteraction<Ca
 
   const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi']
   const tableData: string[][] = [[], []]
-  days.forEach((_item, index) => {
-    const entry = responseJson[index]
-    if (!entry || !tableData[0] || !tableData[1]) {
-      console.error('What the fuck?')
-      return
+    let morningRoom = null
+    let teachers= null
+    let afternoonRoom = null
+
+    let halfDay = false
+
+    for (const entry of responseJson) {
+      if (!halfDay) {
+        morningRoom = entry.salles[0]?.nomSalle || 'Salle inconnue'
+        if (entry.intervenants.length === 0) {
+          teachers = 'Intervenant inconnu'
+        } else {
+          teachers = entry.intervenants.map(i => `${i.prenom} ${i.nom}`).join(', ')
+        }
+      } else {
+        afternoonRoom = entry.salles[0]?.nomSalle || 'Salle inconnue'
+      }
+      halfDay = !halfDay
+      if (!halfDay) {
+        if (!entry || !tableData[0] || !tableData[1]) {
+          console.error('What the fuck?')
+          return
+        }
+        tableData[0].push(`${morningRoom} (Matin) / ${afternoonRoom} (Après-midi) - ${teachers}`)
+        tableData[1].push(entry.title)
+      }
     }
-    tableData[0].push(`${entry.salles[0]?.nomSalle || 'Salle inconnue'} - ${entry.intervenants[0]?.prenom || 'Intervenant'} ${entry.intervenants[0]?.nom || 'Inconnu'}`)
-    tableData[1].push(entry.title)
-  })
 
   return interaction.editReply(formatSchedule(days, tableData))
-  // await interaction.editReply({
-  //   files: [Buffer.from(screenshot)]
+
+
+  //   console.log(halfDay, index)
+  //   if (halfDay === 1) {
+  //     halfDay = 0
+  //     return
+  //   }
+  //   const entry = responseJson[index]
+  //   if (!entry || !tableData[0] || !tableData[1] || halfDay > 1 || !responseJson[index + 1]) {
+  //     console.error('What the fuck?')
+  //     return
+  //   }
+  //   tableData[0].push(`${entry.salles[0]?.nomSalle || 'Salle inconnue'} (Matin) / ${responseJson[index + 1].salles[0]?.nomSalle || 'Salle inconnue'} (Après-midi)- ${entry.intervenants[0]?.prenom || 'Intervenant'} ${entry.intervenants[0]?.nom || 'Inconnu'}`)
+  //   tableData[1].push(entry.title)
+  //   halfDay++
   // })
+  //
+  // return interaction.editReply(formatSchedule(days, tableData))
+  // // await interaction.editReply({
+  // //   files: [Buffer.from(screenshot)]
+  // // })
 }
