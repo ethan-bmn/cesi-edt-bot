@@ -7,8 +7,6 @@ const CLIENT_ID = process.env.DISCORD_CLIENT_ID || 'not set'
 const preAnswers = [
   'Ça arrive...',
   'Donne moi deux petites secondes.',
-  'Je tourne sur un i5, soyez patients !',
-  'Change pas de main, je sens que ça vient !',
   'Je finis ma clope, j\'arrive',
   'Très bien — je t\'envoie ton emploi du temps ! (tokens expirés, veuillez améliorer votre abonnement ou attendez 5h24m)'
 ]
@@ -42,7 +40,6 @@ async function main() {
   })
 
   client.on(Events.InteractionCreate, async interaction => {
-    console.log(interaction)
     if (!interaction.isChatInputCommand()) return
 
     if (interaction.commandName === 'edt') {
