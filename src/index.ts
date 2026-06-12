@@ -8,7 +8,10 @@ const preAnswers = [
   'Ça arrive...',
   'Donne moi deux petites secondes.',
   'Je finis ma clope, j\'arrive',
-  'Très bien — je t\'envoie ton emploi du temps ! (tokens expirés, veuillez améliorer votre abonnement ou attendez 5h24m)'
+  'Très bien — je t\'envoie ton emploi du temps ! (tokens expirés, veuillez améliorer votre abonnement ou attendez 5h24m)',
+  'Toujours meilleur que le bot de l\'horrible Tom.',
+  '* Numéro de salle soumis à conditions.',
+  '* Tables et chaises vendues séparément.',
 ]
 
 async function main() {
